@@ -1,0 +1,28 @@
+---
+import { prisma } from './db'
+
+var createdBook;
+if(Astro.request.body) {
+  try {
+    var body = JSON.parse(Astro.request.body);
+    if(body 
+    && body.name
+    && body.author
+    && (typeof body.name === 'string')
+    && (typeof body.author === 'string'))
+    {
+      createdBook = await prisma.book.create({
+        data : {
+            name: body.name,
+            author: body.author
+        }
+      });
+    }
+  } catch (e) {
+
+  }
+}
+
+
+---
+{createdBook && JSON.stringify(createdBook)}

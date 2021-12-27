@@ -1,0 +1,24 @@
+---
+import { prisma } from './db'
+
+var deletedBook;
+console.log(Astro.request.body);
+if(Astro.request.body) {
+  try {
+    var body = JSON.parse(Astro.request.body);
+    if(body && body.id && Number.isInteger(body.id))
+    {
+      deletedBook = await prisma.book.delete({
+        where: {
+          id: body.id,
+        }
+      });
+    }
+  } catch (e) {
+
+  }
+}
+
+
+---
+{deletedBook && JSON.stringify(deletedBook)}

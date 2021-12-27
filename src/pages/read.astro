@@ -1,0 +1,15 @@
+---
+import { prisma } from './db'
+
+const results = await prisma.book.findMany();
+for (const result of results) {
+	const response = await fetch('https://bookcoverapi.herokuapp.com/getBookCover?' + new URLSearchParams({
+		bookTitle: encodeURIComponent(result.name),
+		authorName: encodeURIComponent(result.author)
+	}));
+	const data = await response.json();
+	result.bookCover = data.bookCoverUrl;
+}
+//https://bookcoverapi.herokuapp.com/getBookCover?bookTitle=Potop&authorName=Henryk%20Sienkiewicz
+---
+{results && JSON.stringify(results)}

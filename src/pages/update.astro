@@ -1,0 +1,34 @@
+---
+import { prisma } from './db'
+
+var updatedBook;
+console.log(Astro.request.body);
+if(Astro.request.body) {
+  try {
+    var body = JSON.parse(Astro.request.body);
+    if(body 
+    && body.id
+    && body.name
+    && body.author
+    && Number.isInteger(body.id)
+    && (typeof body.name === 'string')
+    && (typeof body.author === 'string'))
+    {
+      updatedBook = await prisma.book.update({
+        where: {
+          id: body.id,
+        },
+        data : {
+            name: body.name,
+            author: body.author
+        }
+      });
+    }
+  } catch (e) {
+
+  }
+}
+
+
+---
+{updatedBook && JSON.stringify(updatedBook)}
